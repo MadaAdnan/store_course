@@ -18,11 +18,17 @@ return new class extends Migration
            $table->string('password',100);
            $table->dateTime('email_verified_at')->nullable();
            $table->rememberToken();
-           $table->enum('level',['user','admin','vendor'])->default('user')->nullable();
+           $table->enum('status',['pending','active','inactive'])->nullable()->default('pending');
+           $table->enum('level',['store','admin','user'])->default('user')->nullable();
            $table->string('store_name')->nullable();
-           $table->string('address')->nullable();
            $table->string('phone')->nullable();
+           $table->string('address')->nullable();
            $table->timestamps();
+
+        });
+
+        Schema::table('users',function(Blueprint $table){
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
         });
     }
 
