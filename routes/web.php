@@ -25,4 +25,7 @@ Route::get('/', function () {
 //Route::get('users/{user}/edit',[\App\Http\Controllers\Api\UserController::class,'show']);
 //Route::put('users/{user}/update',[\App\Http\Controllers\Api\UserController::class,'update']);
 
-Route::resource('users',\App\Http\Controllers\Api\UserController::class);
+//Route::resource('users',\App\Http\Controllers\Api\UserController::class);
+Route::get('/home',function(){
+    return "Home";
+})->middleware(\App\Http\Middleware\UserMiddleware::class);
