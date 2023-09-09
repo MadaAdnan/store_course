@@ -28,4 +28,7 @@ Route::get('/', function () {
 //Route::resource('users',\App\Http\Controllers\Api\UserController::class);
 Route::get('/home',function(){
     return "Home";
-})->middleware(\App\Http\Middleware\UserMiddleware::class);
+})->middleware(\App\Http\Middleware\UserMiddleware::class)->name('home');
+
+
+Route::resource('users',\App\Http\Controllers\HomeController::class);

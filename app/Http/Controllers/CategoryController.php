@@ -15,7 +15,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return CategoryResource::collection(Category::all());
+        return response()->json([
+            'categories'=>CategoryResource::collection(Category::all()),
+            'status'=>'success',
+        ]);
+
     }
 
     /**
@@ -32,13 +36,28 @@ class CategoryController extends Controller
             'user_id.exists'=>'يرجى تحديد متجر',
         ]);
         if($val->fails()){
-            return  $val->getMessageBag();
+            return response()->json([
+                'msg'=>$val->getMessageBag()->first(),
+                'status'=>'error',
+            ],401);
+
         }
-        Category::create([
+       $category= Category::create([
             'user_id'=>$request->user_id,
             'name'=>$request->name,
         ]);
-        return 'success';
+        if($category){
+            return response()->json([
+                'category'=> new CategoryResource($category),
+                'status'=>'success',
+            ]);
+        }
+
+        return response()->json([
+            'msg'=>'لم يتم الإضافة يرجى المحاولة مجددا',
+            'status'=>'error',
+        ],401);
+
     }
 
     /**
